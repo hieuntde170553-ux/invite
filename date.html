@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Lời mời bí mật ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    min-height:100vh;
+    background:linear-gradient(135deg,#ffd6e7,#ffeef6);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.card{
+    width:90%;
+    max-width:380px;
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+    z-index:10;
+}
+
+h2{
+    margin-bottom:25px;
+    color:#ff4d88;
+}
+
+.btn-group{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+button{
+    min-width:110px;
+    height:52px;
+    border:none;
+    border-radius:12px;
+    font-size:17px;
+    cursor:pointer;
+}
+
+.yes{
+    background:#ff4d88;
+    color:white;
+}
+
+.no{
+    background:#e5e5e5;
+}
+
+.hidden{
+    display:none;
+}
+
+input{
+    width:100%;
+    height:50px;
+    margin:20px 0;
+    border-radius:10px;
+    border:1px solid #ccc;
+    padding:10px;
+    font-size:16px;
+}
+
+.success{
+    color:#ff4d88;
+    font-size:20px;
+    font-weight:bold;
+}
+
+/* Tim bay */
+.heart{
+    position:fixed;
+    bottom:-20px;
+    font-size:20px;
+    animation:floatUp linear forwards;
+    pointer-events:none;
+}
+
+@keyframes floatUp{
+    from{
+        transform:translateY(0);
+        opacity:1;
+    }
+    to{
+        transform:translateY(-120vh);
+        opacity:0;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+```
+<div id="step1">
+    <h2>Từ đây đến thứ 6 em có rảnh hong ❤️</h2>
+
+    <div class="btn-group">
+        <button class="yes" onclick="step2()">Có</button>
+        <button class="no" id="no1">Không</button>
+    </div>
+</div>
+
+<div id="step2" class="hidden">
+    <h2>Em có mún đi chơi đâu ko 🥺</h2>
+
+    <div class="btn-group">
+        <button class="yes" onclick="step3()">Có</button>
+        <button class="no" id="no2">Không</button>
+    </div>
+</div>
+
+<div id="step3" class="hidden">
+    <h2>Chọn ngày giờ nè ❤️</h2>
+
+    <input type="datetime-local" id="dateTime">
+
+    <button class="yes" onclick="submitForm()">
+        Xác nhận
+    </button>
+</div>
+
+<div id="success" class="hidden">
+    <div class="success">
+        ❤️ Đăng ký thành công ❤️
+        <br><br>
+        Anh sẽ liên hệ em sớm 😘
+    </div>
+</div>
+```
+
+</div>
+
+<script>
+
+// Hiệu ứng tim
+setInterval(() => {
+
+    const heart = document.createElement("div");
+
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.animationDuration =
+        (4 + Math.random()*4) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{
+        heart.remove();
+    },8000);
+
+},500);
+
+// Chạy trốn
+function makeRun(btn){
+
+    const move = (e)=>{
+
+        e.preventDefault();
+
+        const x =
+            Math.random() *
+            (window.innerWidth - 120);
+
+        const y =
+            Math.random() *
+            (window.innerHeight - 60);
+
+        btn.style.position="fixed";
+        btn.style.left=x+"px";
+        btn.style.top=y+"px";
+    };
+
+    btn.addEventListener("mouseover",move);
+    btn.addEventListener("touchstart",move);
+    btn.addEventListener("click",move);
+}
+
+makeRun(document.getElementById("no1"));
+makeRun(document.getElementById("no2"));
+
+function step2(){
+
+    document.getElementById("step1")
+        .classList.add("hidden");
+
+    document.getElementById("step2")
+        .classList.remove("hidden");
+}
+
+function step3(){
+
+    document.getElementById("step2")
+        .classList.add("hidden");
+
+    document.getElementById("step3")
+        .classList.remove("hidden");
+}
+
+async function submitForm(){
+
+    const date =
+        document.getElementById("dateTime").value;
+
+    if(!date){
+
+        alert("Chọn ngày giờ trước nha ❤️");
+        return;
+    }
+
+    try{
+
+        await fetch(
+            "YOUR_DISCORD_WEBHOOK_URL",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    content:
+                    "❤️ Bạn gái đã chọn lịch hẹn:\n" +
+                    date
+                })
+            }
+        );
+
+    }catch(e){
+        console.log(e);
+    }
+
+    document.getElementById("step3")
+        .classList.add("hidden");
+
+    document.getElementById("success")
+        .classList.remove("hidden");
+}
+
+</script>
+
+</body>
+</html>
